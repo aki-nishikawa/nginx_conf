@@ -1,0 +1,7 @@
+services:
+  nginx:
+    image: nginx:1.22
+    volumes:
+      - ./nginx:/etc/nginx
+    ports:
+      - "80:80"

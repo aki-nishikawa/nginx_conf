@@ -7,8 +7,6 @@ import (
 	"os"
 
 	"github.com/aki-nishikawa/go_tutorial/trace"
-	"github.com/stretchr/gomniauth"
-	"github.com/stretchr/gomniauth/providers/google"
 )
 
 var avatars Avatar = TryAvatars{
@@ -21,15 +19,8 @@ func main() {
 
 	var addr = flag.String("addr", ":8080", "address")
 	flag.Parse()
-
-	gomniauth.SetSecurityKey("akihitoTestForGo")
-	gomniauth.WithProviders(
-		google.New(
-			"498531321351-hb5tci5041uks3p2kkti2ciipvgbkg14.apps.googleusercontent.com",
-			"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",
-			"http://localhost:8080/auth/callback/google",
-		),
-	)
+	
+	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 
 	r := newRoom()
 	r.tracer = trace.New(os.Stdout)

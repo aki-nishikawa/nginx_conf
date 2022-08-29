@@ -5,6 +5,10 @@ services:
       - ./nginx:/etc/nginx
     ports:
       - "80:80"
+    links:
+      - app
 
   app:
-    built: app/.
+    build: app/.
+    ports:
+      - "8080:8080"

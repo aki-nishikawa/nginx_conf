@@ -60,20 +60,32 @@ const (
 var upgrader = &websocket.Upgrader{
 	ReadBufferSize:  socketBufferSize,
 	WriteBufferSize: socketBufferSize,
+	CheckOrigin: func(r *http.Request) bool {
+		return true
+	},
 }
 
 func (r *room) ServeHTTP(w http.ResponseWriter, req *http.Request) {
+
+	log.Print(req.Header)
+	// w.Header().Set("Access-Control-Allow-Origin", req.RemoteAddr)
+	// w.Header().Set("Access-Control-Allow-Credentials", "true")
+	// w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
+	// w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
 
 	socket, err := upgrader.Upgrade(w, req, nil)
 	if err != nil {
 		log.Fatal("ServeHTTP:", err)
 		return
 	}
+	log.Print("hoge: ", err)
 
 	authCookie, err := req.Cookie("auth")
 	if err != nil {
 		log.Fatal("Failed to get Cookie: ", err)
 	}
+	log.Print("fuga: ", err)
+	log.Print("piyo: ", socket)
 	client := &client{
 		socket:   socket,
 		send:     make(chan *message, messageBufferSize),

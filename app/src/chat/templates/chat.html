@@ -54,7 +54,12 @@
 					alert("ERROR: This browser is not support WebSocket");
 				} else {
 					socket = new WebSocket("ws://{{.Host}}/room");
-					alert("start websocket")
+					socket.onopen = function(e) {
+						alert("[open] Connection established");
+					};
+					socket.addEventListener('error', function (event) {
+  						alert('WebSocket error: ', event);
+					});
 					socket.onclose = function() {
 						alert("Connection finished");
 					}
